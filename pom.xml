@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.alibou</groupId>
 	<artifactId>chat</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1</version>
 	<name>Chat</name>
 	<description>Demo project for a Chat application using Spring Boot</description>
 	<properties>
