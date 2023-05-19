@@ -21,17 +21,6 @@ body {
     height: 100%;
 }
 
-body:before {
-    height: 50%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: #128ff2;
-    content: "";
-    z-index: 0;
-}
-
 .clearfix:after {
     display: block;
     content: "";
@@ -68,7 +57,7 @@ h1 {
 }
 
 a {
-    color: #128ff2;
+    color: #6db33f;
 }
 
 button {
@@ -93,13 +82,13 @@ button.default {
 }
 
 button.primary {
-    background-color: #128ff2;
+    background-color: #6db33f;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
     color: #fff;
 }
 
 button.accent {
-    background-color: #ff4743;
+    background-color: #6db33f;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
     color: #fff;
 }
