@@ -61,11 +61,12 @@ public class MyHandler extends TextWebSocketHandler {
                 .build();
 
         String chatMessageAsJson = objectMapper.writeValueAsString(chatMessage);
-
-        session.sendMessage(new TextMessage(chatMessageAsJson));
-
         session.getAttributes().remove("username"); // unnecessary
         sessions.remove(session);
         log.info("Session has been closed sessionId: {}", session.getId());
+
+        for (WebSocketSession s : sessions) { // send to existing sessions
+            s.sendMessage(new TextMessage(chatMessageAsJson));
+        }
     }
 }
