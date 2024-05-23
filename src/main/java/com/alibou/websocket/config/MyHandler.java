@@ -4,6 +4,7 @@ import com.alibou.websocket.chat.ChatMessage;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.alibou.websocket.chat.MessageType.JOIN;
+import static com.alibou.websocket.chat.MessageType.LEAVE;
 
 @Component
 @Slf4j
@@ -47,5 +49,23 @@ public class MyHandler extends TextWebSocketHandler {
 
             session.sendMessage(new TextMessage(chatMessageAsJson));
         }
+    }
+
+    @Override
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+        String username = (String) session.getAttributes().get("username");
+        ChatMessage chatMessage = ChatMessage.builder()
+                .sender(username)
+                .content(username + " has left.")
+                .type(LEAVE)
+                .build();
+
+        String chatMessageAsJson = objectMapper.writeValueAsString(chatMessage);
+
+        session.sendMessage(new TextMessage(chatMessageAsJson));
+
+        session.getAttributes().remove("username"); // unnecessary
+        sessions.remove(session);
+        log.info("Session has been closed sessionId: {}", session.getId());
     }
 }
