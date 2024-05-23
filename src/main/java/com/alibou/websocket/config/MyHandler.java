@@ -47,7 +47,9 @@ public class MyHandler extends TextWebSocketHandler {
 
             String chatMessageAsJson = objectMapper.writeValueAsString(chatMessage);
 
-            session.sendMessage(new TextMessage(chatMessageAsJson));
+            for (WebSocketSession s : sessions) { // sending to existing sessions
+                s.sendMessage(new TextMessage(chatMessageAsJson));
+            }
         }
     }
 
