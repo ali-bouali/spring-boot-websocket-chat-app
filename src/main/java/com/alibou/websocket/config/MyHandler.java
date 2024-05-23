@@ -54,6 +54,16 @@ public class MyHandler extends TextWebSocketHandler {
     }
 
     @Override
+    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        String payload = message.getPayload();
+        ChatMessage chatMessage = objectMapper.readValue(payload, ChatMessage.class); // todo - if any operation is needed
+
+        for (WebSocketSession s : sessions) {
+            s.sendMessage(message);
+        }
+    }
+
+    @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         String username = (String) session.getAttributes().get("username");
         ChatMessage chatMessage = ChatMessage.builder()
