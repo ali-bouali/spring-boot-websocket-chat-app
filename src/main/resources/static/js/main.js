@@ -43,13 +43,13 @@ window.onload = () => {
 
     function sendMessage(event) {
         const messageContent = messageInput.value.trim();
-        if (messageContent && stompClient) {
+        if (messageContent && socket) {
             const chatMessage = {
                 sender: username,
                 content: messageInput.value,
                 type: 'CHAT'
             };
-            stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+            socket.send(JSON.stringify(chatMessage));
             messageInput.value = '';
         }
         event.preventDefault();
@@ -57,7 +57,7 @@ window.onload = () => {
 
 
     function onMessageReceived(payload) {
-        const message = JSON.parse(payload.body);
+        const message = JSON.parse(payload.data);
 
         const messageElement = document.createElement('li');
 
